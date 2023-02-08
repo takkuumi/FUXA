@@ -117,6 +117,7 @@ function MODBUSclient(_data, _logger, _events) {
             if (!data.property.options) {
                 for (var memaddr in memory) {
                     var tokenizedAddress = parseAddress(memaddr);
+                    logger.info(`'================${tokenizedAddress}'`);
                     try {
                         readVarsfnc.push(await _readMemory(parseInt(tokenizedAddress.address), memory[memaddr].Start, memory[memaddr].MaxSize, Object.values(memory[memaddr].Items)));
                         readVarsfnc.push(await delay(10));
@@ -127,6 +128,7 @@ function MODBUSclient(_data, _logger, _events) {
             } else {
                 for (var memaddr in mixItemsMap) {
                     try {
+                        logger.info(`'================${memaddr}'`);
                         readVarsfnc.push(await _readMemory(getMemoryAddress(parseInt(memaddr), false), mixItemsMap[memaddr].Start, mixItemsMap[memaddr].MaxSize, Object.values(mixItemsMap[memaddr].Items)));
                         readVarsfnc.push(await delay(10));
                     } catch (err) {
@@ -384,9 +386,13 @@ function MODBUSclient(_data, _logger, _events) {
                 client.readCoils(start, size).then( res => {
                     if (res.data) {
                         vars.map(v => {
+                            logger.info(`readCoils offset ${v.offset} start ${start}`)
                             let bitoffset = Math.trunc((v.offset - start) / 8);
+                            logger.info(`readCoils ${bitoffset}`)
                             let bit = (v.offset - start) % 8;
+                            logger.info(`readCoils ${bit}`)
                             let value = datatypes[v.type].parser(res.buffer, bitoffset, bit);
+                            logger.info(`readCoils ${value}`)
                             v.changed = value !== v.rawValue;
                             v.rawValue = value;
                         });
@@ -434,6 +440,7 @@ function MODBUSclient(_data, _logger, _events) {
                     if (res.data) {
                         vars.map(v => {
                             let byteoffset = (v.offset - start) * 2;
+                            
                             let buffer = Buffer.from(res.buffer.slice(byteoffset, byteoffset + datatypes[v.type].bytes))
                             let value = datatypes[v.type].parser(buffer);
                             v.changed = value !== v.rawValue;
