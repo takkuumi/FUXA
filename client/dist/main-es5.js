@@ -12684,7 +12684,7 @@
         /*! ../../package.json */
         "kiQV").version,
         production: false,
-        apiEndpoint: null,
+        apiEndpoint: 'http://127.0.0.1:1881',
         apiPort: 1881,
         serverEnabled: true,
         type: null
