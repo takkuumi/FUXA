@@ -36,6 +36,8 @@ import { GridsterItem } from 'angular-gridster2';
 import { CardConfigComponent } from './card-config/card-config.component';
 import { CardsViewComponent } from '../cards-view/cards-view.component';
 import { IElementPreview } from './svg-selector/svg-selector.component';
+import { Router } from '@angular/router';
+import { AppService } from '../_services/app.service';
 
 declare var Gauge: any;
 
@@ -110,7 +112,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private subscriptionSave: Subscription;
     private subscriptionLoad: Subscription;
 
-    constructor(private projectService: ProjectService,
+    constructor(private router: Router,
+        private appService: AppService,
+        private projectService: ProjectService,
         private winRef: WindowRef,
         public dialog: MatDialog,
         private changeDetector: ChangeDetectorRef,
@@ -122,6 +126,27 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         mdIconRegistry.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/group.svg'));
         mdIconRegistry.addSvgIcon('to_bottom', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/to-bottom.svg'));
         mdIconRegistry.addSvgIcon('to_top', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/to-top.svg'));
+    }
+
+    goTo(destination: string) {
+        this.router.navigate([destination]);
+    }
+
+    isToDisable(section: string) {
+        if (section === 'messages') {
+            return this.appService.isClientApp;
+        } else if (section === 'users') {
+            return this.appService.isClientApp;
+        } else if (section === 'plugins') {
+            return this.appService.isClientApp;
+        } else if (section === 'notifications') {
+            return this.appService.isClientApp;
+        } else if (section === 'scripts') {
+            return this.appService.isClientApp;
+        } else if (section === 'reports') {
+            return this.appService.isClientApp;
+        }
+        return false;
     }
 
     //#region Implemented onInit / onAfterInit event
