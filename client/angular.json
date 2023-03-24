@@ -31,6 +31,22 @@
                         "scripts": [
                             "node_modules/uplot/dist/uPlot.iife.min.js",
                             "src/assets/lib/uplot/placement.min.js"
+                        ],
+                        "aot": false,
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true,
+                        "allowedCommonJsDependencies": [
+                            "chart.js",
+                            "socket.io-client",
+                            "chartjs-plugin-datalabels",
+                            "panzoom",
+                            "codemirror/addon/lint/lint",
+                            "codemirror/mode/javascript/javascript",
+                            "codemirror/mode/markdown/markdown"
                         ]
                     },
                     "configurations": {
@@ -40,131 +56,73 @@
                                     "replace": "src/environments/environment.ts",
                                     "with": "src/environments/environment.prod.ts"
                                 }
-                            ],
-                            "optimization": true,
-                            "outputHashing": "all",
+                            }
+                        },
+                        "defaultConfiguration": ""
+                    },
+                    "serve": {
+                        "builder": "@angular-devkit/build-angular:dev-server",
+                        "options": {
+                            "browserTarget": "FUXA:build"
+                        },
+                        "configurations": {
+                            "production": {
+                                "browserTarget": "FUXA:build:production"
+                            },
+                            "client": {
+                                "browserTarget": "FUXA:build:clientdebug"
+                            },
+                            "demo": {
+                                "browserTarget": "FUXA:build:demodebug"
+                            }
+                        }
+                    },
+                    "extract-i18n": {
+                        "builder": "@angular-devkit/build-angular:extract-i18n",
+                        "options": {
+                            "browserTarget": "FUXA:build"
+                        }
+                    },
+                    "test": {
+                        "builder": "@angular-devkit/build-angular:karma",
+                        "options": {
                             "sourceMap": false,
-                            "namedChunks": false,
-                            "aot": true,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
-                        },
-                        "demo": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.demo.ts"
-                                }
+                            "main": "src/test.ts",
+                            "polyfills": "src/polyfills.ts",
+                            "tsConfig": "src/tsconfig.spec.json",
+                            "karmaConfig": "src/karma.conf.js",
+                            "styles": [
+                                "src/styles.css",
+                                "src/theme.scss"
                             ],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "namedChunks": false,
-                            "aot": true,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
-                        },
-                        "demodebug": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.demo.ts"
-                                }
-                            ]
-                        },
-                        "client": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.client.ts"
-                                }
-                            ],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "namedChunks": false,
-                            "aot": true,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
-                        },
-                        "clientdebug": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.client.ts"
-                                }
+                            "scripts": [],
+                            "assets": [
+                                "src/assets",
+                                "src/favicon.ico"
                             ]
                         }
-                    }
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": {
-                        "browserTarget": "FUXA:build"
                     },
-                    "configurations": {
-                        "production": {
-                            "browserTarget": "FUXA:build:production"
+                    "lint": {
+                        "builder": "@angular-eslint/builder:lint",
+                        "options": {
+                            "lintFilePatterns": [
+                                "src/**/*.ts",
+                                "src/**/*.html"
+                            ]
+                        }
+                    },
+                    "e2e": {
+                        "builder": "@angular-devkit/build-angular:protractor",
+                        "options": {
+                            "protractorConfig": "e2e/protractor.conf.js",
+                            "devServerTarget": "FUXA:serve"
                         },
-                        "client": {
-                            "browserTarget": "FUXA:build:clientdebug"
-                        },
-                        "demo": {
-                            "browserTarget": "FUXA:build:demodebug"
+                        "configurations": {
+                            "production": {
+                                "devServerTarget": "angular.io-example:serve:production"
+                            }
                         }
                     }
                 },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "browserTarget": "FUXA:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "sourceMap": false,
-                        "main": "src/test.ts",
-                        "polyfills": "src/polyfills.ts",
-                        "tsConfig": "src/tsconfig.spec.json",
-                        "karmaConfig": "src/karma.conf.js",
-                        "styles": [
-                            "src/styles.css",
-                            "src/theme.scss"
-                        ],
-                        "scripts": [],
-                        "assets": [
-                            "src/assets",
-                            "src/favicon.ico"
-                        ]
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-eslint/builder:lint",
-                    "options": {
-                        "lintFilePatterns": [
-                            "src/**/*.ts",
-                            "src/**/*.html"
-                        ]
-                    }
-                },
-                "e2e": {
-                    "builder": "@angular-devkit/build-angular:protractor",
-                    "options": {
-                        "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "FUXA:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "angular.io-example:serve:production"
-                        }
-                    }
-                }
+                "defaultProject": "FUXA"
             }
-        }
-    },
-    "defaultProject": "FUXA"
-}
